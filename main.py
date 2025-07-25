@@ -44,7 +44,7 @@ if uploaded_file is not None:
 
         # Gemini analysis button
         if st.button("🧠 Analyze Symptoms with Gemini"):
-            prompt = f"Identify all the symptoms, duration, and medication offered with as less words as possible in the following doctor-patient conversation:\n{text}. If the language is not English, translate it into English."
+            prompt = f"Identify all the symptoms, symptom duration, medication and healing time offered with as less words as possible in the following doctor-patient conversation:\n{text}. If the language is not English, translate it into English."
             response = model.generate_content(prompt)
             analysis_result = response.text
 
