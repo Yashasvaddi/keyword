@@ -7,8 +7,8 @@ import os
 from fpdf import FPDF
 
 # Configure Gemini API
-api_key=st.secrets['gemini_api_key']
-genai.configure(api_key)
+gemini_api_key=st.secrets['gemini_api_key']
+genai.configure(apikey=gemini_api_key)
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 # Streamlit UI
