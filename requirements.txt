@@ -1,6 +1,6 @@
 fpdf
 protobuf
 pydub
-Speech_Recognition
+SpeechRecognition
 streamlit
 google-generativeai
