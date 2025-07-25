@@ -8,7 +8,6 @@ A lightweight web application that extracts **relevant keywords from spoken audi
 
 - 🎧 **Audio Upload** – Supports `.wav` and `.mp3` files
 - 🗣️ **Speech Recognition** – Converts speech to text using Google's API
-- 🧠 **Keyword Extraction** – Uses `KeyBERT` and transformer-based embeddings
 - 📄 **Transcript Display** – Shows full transcription for context
 - 💡 **Streamlit UI** – Clean, responsive interface for fast interaction
 
@@ -16,7 +15,7 @@ A lightweight web application that extracts **relevant keywords from spoken audi
 
 ## 📍 Live Demo
 
-👉 [Click here to try it on Streamlit Cloud](https://share.streamlit.io/Yashasvaddi/keyword/main)
+👉 [Click here to try it on Streamlit Cloud](https://keywords1412.streamlit.app/)
 
 ---
 
