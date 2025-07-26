@@ -4,7 +4,11 @@ import google.generativeai as genai
 from pydub import AudioSegment
 import tempfile
 import os
-from fpdf import FPDF
+import json
+
+count=0
+j=0
+data_list=[]
 
 # Configure Gemini API
 gemini_api_key=st.secrets['gemini_api_key']
@@ -44,30 +48,41 @@ if uploaded_file is not None:
 
         # Gemini analysis button
         if st.button("🧠 Analyze Symptoms with Gemini"):
-            prompt = f"Identify all the symptoms, symptom duration, medication and healing time offered with as less words as possible in the following doctor-patient conversation:\n{text}. If the language is not English, translate it into English."
+            prompt = f'''From the following doctor-patient conversation:\n{text}.
+                    "Extract and return the response in valid JSON format with the following keys:\n"
+                    " - symptoms (as a list of strings)\n"
+                    " - symptom_duration (string)\n"
+                    " - medication (as a list of strings)\n"
+                    " - healing_time (string)\n\n"
+                    "If the language is not English, translate it first before extracting.'''
             response = model.generate_content(prompt)
             analysis_result = response.text
 
             st.markdown("### 🤖 Gemini Analysis:")
             st.write(analysis_result)
+            for i in analysis_result:
+                if i=="**":
+                    count+=1
+                    if(count%2==0):
 
-            # Generate PDF
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_auto_page_break(auto=True, margin=15)
-            pdf.set_font("Arial", size=12)
-            pdf.multi_cell(0, 10, f"Doctor-Patient Conversation Transcript:\n\n{text}\n\nGemini Analysis:\n\n{analysis_result}")
+                        data_list.append()
 
-            pdf_output = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-            pdf_path = pdf_output.name
-            pdf.output(pdf_path)
+            # Generate JSON
+            output_json={
+                "Transcript":text,
+                "gemini_analysis":analysis_result
+            }
 
-            with open(pdf_path, "rb") as f:
+            json_output = tempfile.NamedTemporaryFile(delete=False, suffix=".json", mode='w', encoding='utf-8')
+            json.dump(output_json, json_output, ensure_ascii=False, indent=4)
+            json_output.close()
+
+            with open(json_output.name, "rb") as f:
                 st.download_button(
-                    label="📄 Download Analysis as PDF",
+                    label="📄 Download Analysis as json",
                     data=f,
-                    file_name="doctor_patient_analysis.pdf",
-                    mime="application/pdf"
+                    file_name="doctor_patient_analysis.json",
+                    mime="application/json"
                 )
                 st.caption("💡 After downloading, open the file and press Ctrl+P to print if needed.")
 
